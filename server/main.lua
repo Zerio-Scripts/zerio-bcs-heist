@@ -94,9 +94,10 @@ AddEventHandler("zerio-doorlock:server:ox_doorlock-setState", function(name, sta
             end
         else
             print("Door with name " .. name .. " is not authorized")
-            print("yes1")
             DropPlayer(source, "Exploiting")
         end
+    else
+        DropPlayer(source, "Exploiting")
     end
 end)
 
@@ -106,7 +107,6 @@ AddEventHandler("zerio-bcs-heist:server:robberydone", function()
     if robberyinprogress == true then
         robberyinprogress = false
     else
-        print("yes2")
         DropPlayer(source, "Exploiting")
     end
 end)
@@ -120,7 +120,6 @@ AddEventHandler("zerio-bcs-heist:server:sync", function(burnpos)
         moneyleft = #Config.Positions.money
         goldleft = #Config.Positions.gold
     else
-        print("yes3")
         DropPlayer(source, "Exploiting")
     end
 end)
@@ -130,7 +129,6 @@ AddEventHandler("zerio-bcs-heist:server:sync2", function(burnpos)
     if robberyinprogress then
         TriggerClientEvent("zerio-bcs-heist:client:sync2", -1, burnpos)
     else
-        print("yes4")
         DropPlayer(source, "Exploiting")
     end
 end)
@@ -140,7 +138,6 @@ AddEventHandler("zerio-bcs-heist:server:sync3", function(burnpos)
     if robberyinprogress then
         TriggerClientEvent("zerio-bcs-heist:client:sync3", -1)
     else
-        print("yes5")
         DropPlayer(source, "Exploiting")
     end
 end)
@@ -150,7 +147,6 @@ AddEventHandler("zerio-bcs-heist:server:synctrolley", function(type, index)
     if robberyinprogress then
         TriggerClientEvent("zerio-bcs-heist:client:synctrolleyprompt", -1, type, index)
     else
-        print("yes6")
         DropPlayer(source, "Exploiting")
     end
 end)

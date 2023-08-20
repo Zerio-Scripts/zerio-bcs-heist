@@ -5,6 +5,7 @@ trolleys, currentprompt, currentlydatacracking, currentlydatacracking2, npcsToRe
     money = {},
     moneyprompts = {}
 }, nil, false, false, {}, {}, nil
+isProximityPromptsLoaded = false
 
 if GetResourceState("qb-core") == "started" then
     QBCore = exports['qb-core']:GetCoreObject()
@@ -26,6 +27,12 @@ if GetResourceState("es_extended") == "started" then
 end
 
 Functions = {
+    awaitProximityPrompt = function()
+        while isProximityPromptsLoaded == false do
+            Wait(100)
+        end
+    end,
+
     Reset = function()
         if currentprompt ~= nil then
             currentprompt:Remove()
@@ -81,6 +88,7 @@ Functions = {
         Functions.ResetDoors()
         Functions.CloseSafe()
 
+        Functions.awaitProximityPrompt()
         currentprompt = exports["zerio-proximityprompt"]:AddNewPrompt({
             name = "bobcatsecurity-placethermite",
             objecttext = "Bobcat Security",
@@ -97,7 +105,6 @@ Functions = {
                                 DisableAllControlActions()
                                 FreezeEntityPosition(PlayerPedId(), true)
                                 exports["memorygame"]:thermiteminigame(5, 5, 3, 10, function()
-
                                     FreezeEntityPosition(PlayerPedId(), false)
                                     if currentprompt ~= nil then
                                         currentprompt:Remove()
@@ -110,7 +117,6 @@ Functions = {
                                     Functions.UpdateDoor("bobcatsecurity-maindoor", false)
                                     Functions.Notify(Lang:t("success.thermite"), "success")
                                 end, function()
-
                                     FreezeEntityPosition(PlayerPedId(), false)
                                     Functions.Notify(Lang:t("error.hackingfailed"), "error")
                                 end)
@@ -383,7 +389,6 @@ Functions = {
             Citizen.Wait(1)
             NetworkRequestControlOfEntity(Trolley)
         end
-        print(Trolley)
         DeleteObject(Trolley)
         NewTrolley = CreateObject(emptyobj, coords + vector3(0.0, 0.0, -0.985), true, false, false)
         if type == "gold" then
